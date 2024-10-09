@@ -2,12 +2,13 @@
 #include<stdio.h>
 #include<string.h>
 
-
+//Structure for each person in org
 struct Person {
     char name[50];
     struct Person *subordinates[10]; // Array to store pointers to subordinates ( I think they'd be children in tree terminology)
     int sub_count; // Num of subordinates
 };
+
 
 //This will be the func to add a subordinate
 int addSubordinate (struct Person *manager, struct Person *subordinate) {
@@ -15,6 +16,7 @@ int addSubordinate (struct Person *manager, struct Person *subordinate) {
     manager->sub_count++;
     return 0;
 }
+
 
 //Func to print whole tree
 void printOrgChart(struct Person *person, int level) {
