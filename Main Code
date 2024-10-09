@@ -1,3 +1,5 @@
+#include<stdlib.h>
+#include<stdio.h>
 struct Person {
     char name[50];
     struct Person *subordinates[10]; // Array to store pointers to subordinates ( I think they'd be children in tree terminology)
@@ -31,4 +33,4 @@ printOrgChart(struct Person *person, int level) {
     }
 }
 
-//test
+
