@@ -1,1 +1,12 @@
+struct Person {
+    char name[50];
+    struct Person *subordinates[10]; // Array to store pointers to subordinates ( I think they'd be children in tree terminology)
+    int sub_count; // Num of subordinates
+};
 
+//This will be the func to add a subordinate
+int addSubordinate (struct Person *manager, struct Person *subordinate) {
+    manager->subordinates[manager->sub_count] = subordinate;
+    manager->sub_count++;
+    return 0;
+}
