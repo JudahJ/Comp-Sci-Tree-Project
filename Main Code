@@ -11,4 +11,24 @@ int addSubordinate (struct Person *manager, struct Person *subordinate) {
     return 0;
 }
 
+//Func to print whole tree
+printOrgChart(struct Person *person, int level) {
+    if (person == NULL) {
+        return;
+    }
+
+    //basically this will print an indentation based on the level of the person
+    for (int i = 0; i < level; i++) {
+        printf("    "); 
+    }
+
+    // Print the person's name
+    printf("%s\n", person->name);
+
+    //print all subordinates using recursion
+    for (int i = 0; i < person->sub_count; i++) {
+        printOrgChart(person->subordinates[i], level + 1);
+    }
+}
+
 //test
