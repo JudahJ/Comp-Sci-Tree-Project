@@ -1,0 +1,13 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "C/C++ Runner: Debug Session",
+      "type": "lldb",
+      "request": "launch",
+      "args": [],
+      "cwd": "/Users/jcliebman2025/tree project git/Comp-Sci-Tree-Project",
+      "program": "/Users/jcliebman2025/tree project git/Comp-Sci-Tree-Project/build/Debug/outDebug"
+    }
+  ]
+}

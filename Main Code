@@ -10,3 +10,5 @@ int addSubordinate (struct Person *manager, struct Person *subordinate) {
     manager->sub_count++;
     return 0;
 }
+
+//test
