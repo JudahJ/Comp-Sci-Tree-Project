@@ -17,7 +17,7 @@ int addSubordinate (struct Person *manager, struct Person *subordinate) {
 }
 
 //Func to print whole tree
-printOrgChart(struct Person *person, int level) {
+void printOrgChart(struct Person *person, int level) {
     if (person == NULL) {
         return;
     }
