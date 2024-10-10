@@ -38,4 +38,22 @@ void printOrgChart(struct Person *person, int level) {
     }
 }
 
+void user_input(char *name, int *sub_count) {
+    printf("Enter the name of the highest level manager: ");
+    scanf("%s", name);  // Get name of the manager
+    printf("How many subordinates does %s have: ", name);
+    scanf("%d", sub_count);  // Get number of subordinates
+}
 
+
+
+int main() {
+    struct Person manager;
+    manager.sub_count = 0;
+
+    // Get name and number of subbordinates from the user
+    user_input(manager.name, &manager.sub_count);
+
+
+    return 0;
+}
