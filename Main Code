@@ -1,24 +1,25 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
+#define MAX_SUBORDINATES 10
 
 // Structure to represent a person in the organization
 struct Person {
-    char name[50];  
-    struct Person *subordinates[10]; 
-    int sub_count;  
+    char name[50];
+    struct Person *subordinates[MAX_SUBORDINATES];
+    int sub_count;
 };
 
 
 // Function to add a subordinate to a manager
 int addSubordinate(struct Person *manager, struct Person *subordinate) {
-    if (manager->sub_count < 10) {
-        manager->subordinates[manager->sub_count] = subordinate; 
-        manager->sub_count++; 
-        return 0; 
+    if (manager->sub_count < MAX_SUBORDINATES) {
+        manager->subordinates[manager->sub_count] = subordinate;
+        manager->sub_count++;
+        return 0;
     } else {
         printf("Cannot add more subordinates to %s\n", manager->name);
-        return -1; 
+        return -1;
     }
 }
 
@@ -26,52 +27,21 @@ int addSubordinate(struct Person *manager, struct Person *subordinate) {
 // Function to print the organizational chart with recursion (THIS DOESN'T WORK RIGHT NOW)
 void printOrgChart(struct Person *person, int level) {
     if (person == NULL) {
-        return; 
+        return;
     }
 
     for (int i = 0; i < level; i++) {
-        printf("    "); //Basically indents based on the level 
+        printf("    ");
     }
-
     printf("%s\n", person->name);
 
     for (int i = 0; i < person->sub_count; i++) {
-        printOrgChart(person->subordinates[i], level + 1); 
+        printOrgChart(person->subordinates[i], level + 1);
     }
 }
 
 
-// Function to take user input for names and subordinate counts
-void user_input(char *name, int *sub_count, int subordinate_num, char manager_name[]) {
-    if (subordinate_num == 0) {
-        printf("What is the name of the highest level manager: ");
-    } 
-    else {
-        printf("What is the name of subordinate %d of %s: ", subordinate_num, manager_name);
-    }
-    
-    scanf("%s", name); 
-    printf("How many subordinates does %s have? ", name);
-    scanf("%d", sub_count); 
-}
 
-
-// Function to create subordinates for a manager
-void createSubordinates(struct Person *manager) {
-    for (int i = 0; i < manager->sub_count; i++) {
-        struct Person *subordinate;
-        subordinate = malloc(sizeof(struct Person));
-        subordinate->sub_count = 0; 
-
-        user_input(subordinate->name, &subordinate->sub_count, i + 1, manager->name);
-
-        addSubordinate(manager, subordinate);
-
-        if (subordinate->sub_count > 0) {
-            createSubordinates(subordinate); 
-        }
-    }
-}
 
 int main() {
     struct Person manager;
