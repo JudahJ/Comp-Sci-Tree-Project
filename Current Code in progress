@@ -1,0 +1,55 @@
+#include <stdlib.h>
+#include <stdio.h>
+#include <string.h>
+#define MAX_SUBORDINATES 10
+
+// Structure to represent a person in the organization
+struct Person {
+    char name[50];
+    struct Person *subordinates[MAX_SUBORDINATES];
+    int sub_count;
+};
+
+
+// Function to add a subordinate to a manager
+int addSubordinate(struct Person *manager, struct Person *subordinate) {
+    if (manager->sub_count < MAX_SUBORDINATES) {
+        manager->subordinates[manager->sub_count] = subordinate;
+        manager->sub_count++;
+        return 0;
+    } else {
+        printf("Cannot add more subordinates to %s\n", manager->name);
+        return -1;
+    }
+}
+
+
+// Function to print the organizational chart with recursion (THIS DOESN'T WORK RIGHT NOW)
+void printOrgChart(struct Person *person, int level) {
+    if (person == NULL) {
+        return;
+    }
+
+    for (int i = 0; i < level; i++) {
+        printf("    ");
+    }
+    printf("%s\n", person->name);
+
+    for (int i = 0; i < person->sub_count; i++) {
+        printOrgChart(person->subordinates[i], level + 1);
+    }
+}
+
+
+
+
+int main() {
+    struct Person manager;
+    manager.sub_count = 0; 
+
+    user_input(manager.name, &manager.sub_count, 0, "");
+
+    createSubordinates(&manager);
+
+    return 0;
+}
