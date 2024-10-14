@@ -54,3 +54,40 @@ struct Person *Search_for_person(struct Person *manager, char *name){
     // If there is no manager
     return NULL;
 }
+
+int main() {
+    // Create some people
+    struct Person ceo = {"Alice", {NULL}, 0};
+    struct Person manager1 = {"Bob", {NULL}, 0};
+    struct Person manager2 = {"Charlie", {NULL}, 0};
+    struct Person employee1 = {"David", {NULL}, 0};
+    struct Person employee2 = {"Eva", {NULL}, 0};
+    struct Person employee3 = {"Frank", {NULL}, 0};
+
+
+    addSubordinate(&ceo, &manager1);
+    addSubordinate(&ceo, &manager2);
+    addSubordinate(&manager1, &employee1);
+    addSubordinate(&manager1, &employee2);
+    addSubordinate(&manager2, &employee3);
+
+    //print the chart
+    printf("Org Chart:\n");
+    printOrgChart(&ceo, 0);
+
+    // Look for person
+    char name_to_search[50];
+    printf("\nEnter the name of the person you want to search for: ");
+    scanf("%s", name_to_search);
+
+    struct Person *found_person = Search_for_person(&ceo, name_to_search);
+
+    if (found_person != NULL) {
+        printf("\nPerson %s found!\n", found_person->name);
+    } else {
+        printf("\nPerson %s not found in the organization.\n", name_to_search);
+    }
+
+    return 0;
+}
+
