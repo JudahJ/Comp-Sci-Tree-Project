@@ -47,7 +47,7 @@ struct Person *Search_for_person(struct Person *manager, char *name){
         // Create a new pointer to our struct
         struct Person *found = Search_for_person(manager->subordinates[i], name);
 
-        if (found) {
+        if (found != NULL) {
             return found;
         }
     }
