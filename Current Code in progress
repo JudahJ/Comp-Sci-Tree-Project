@@ -55,14 +55,15 @@ struct Person *Search_for_person(struct Person *manager, char *name){
     return NULL;
 }
 
+
 int main() {
     // Create some people
-    struct Person ceo = {"Alice", {NULL}, 0};
-    struct Person manager1 = {"Bob", {NULL}, 0};
-    struct Person manager2 = {"Charlie", {NULL}, 0};
-    struct Person employee1 = {"David", {NULL}, 0};
-    struct Person employee2 = {"Eva", {NULL}, 0};
-    struct Person employee3 = {"Frank", {NULL}, 0};
+    struct Person ceo = {"Alice", NULL, 0};
+    struct Person manager1 = {"Bob", NULL, 0};
+    struct Person manager2 = {"Charlie", NULL, 0};
+    struct Person employee1 = {"David", NULL, 0};
+    struct Person employee2 = {"Eva", NULL, 0};
+    struct Person employee3 = {"Frank", NULL, 0};
 
 
     addSubordinate(&ceo, &manager1);
