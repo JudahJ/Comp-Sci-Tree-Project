@@ -17,76 +17,101 @@ int addSubordinate(struct Person *manager, struct Person *subordinate) {
         return 0;
     } else {
         printf("Cannot add more subordinates to %s\n", manager->name);
-        return -1;
+        exit(1);
     }
 }
 
 void printOrgChart(struct Person *person, int level) {
+    //BASE CASE
     if (person == NULL) {
         return;
     }
-
+    
     for (int i = 0; i < level; i++) {
-        printf("    ");
+        printf("    ↓");
     }
     printf("%s\n", person->name);
-
+    //for loop to track which subordinate
     for (int i = 0; i < person->sub_count; i++) {
         printOrgChart(person->subordinates[i], level + 1);
     }
 }
 
-struct Person *Search_for_person(struct Person *manager, char *name){
-    // If the current name matches the name we're searching for
+struct Person *Search_for_person(struct Person *manager, char *name) {
     if (strcmp(manager->name, name) == 0) {
         return manager;
     }
 
-    // Use recursion to search for name in tree
     for (int i = 0; i < manager->sub_count; i++) {
-        // Create a new pointer to our struct
-        struct Person *found = Search_for_person(manager->subordinates[i], name);
-
+        struct Person *found;
+        found = Search_for_person(manager->subordinates[i], name);
         if (found != NULL) {
             return found;
         }
     }
-    // If there is no manager
     return NULL;
 }
 
+//Func to create memory for the person and return a pointer to them
+struct Person *createPerson(char *name) {
+    struct Person *newPerson;
+    newPerson = malloc(sizeof(struct Person));
+    strcpy(newPerson->name, name);
+    newPerson->sub_count = 0;
+    return newPerson;
+}
 
 int main() {
-    // Create some people
-    struct Person ceo = {"Alice", NULL, 0};
-    struct Person manager1 = {"Bob", NULL, 0};
-    struct Person manager2 = {"Charlie", NULL, 0};
-    struct Person employee1 = {"David", NULL, 0};
-    struct Person employee2 = {"Eva", NULL, 0};
-    struct Person employee3 = {"Frank", NULL, 0};
+    struct Person *ceo = NULL;
+    
+    char ceo_name[50];
+    printf("Please enter the name of the highest level manager (CEO): ");
+    scanf("%s", ceo_name);
+    
+    ceo = createPerson(ceo_name);
 
+    while (1) {
+        char subordinate_name[50];
+        char manager_name[50];
 
-    addSubordinate(&ceo, &manager1);
-    addSubordinate(&ceo, &manager2);
-    addSubordinate(&manager1, &employee1);
-    addSubordinate(&manager1, &employee2);
-    addSubordinate(&manager2, &employee3);
+        // Get name of the subordinate 
+        printf("\nEnter the name of an employee or type 'done' to stop and print the chart: ");
+        scanf("%s", subordinate_name);
 
-    //print the chart
-    printf("Org Chart:\n");
-    printOrgChart(&ceo, 0);
+        if (strcmp(subordinate_name, "done") == 0) {
+            break;
+        }
 
-    // Look for person
+        // Get the person they work for
+        printf("Who does %s work for? ", subordinate_name);
+        scanf("%s", manager_name);
+
+        //find the person
+        struct Person *manager = Search_for_person(ceo, manager_name);
+        if (manager == NULL) {
+            printf("Manager %s isnn't in the organization\n", manager_name);
+            continue;
+        }
+
+        // Create subordinate and add them to the manager
+        struct Person *subordinate = createPerson(subordinate_name);
+        addSubordinate(manager, subordinate);
+    }
+
+    // Print the chart
+    printf("\nOrg Chart:\n");
+    printOrgChart(ceo, 0);
+
+    // Look for a person
     char name_to_search[50];
     printf("\nEnter the name of the person you want to search for: ");
     scanf("%s", name_to_search);
 
-    struct Person *found_person = Search_for_person(&ceo, name_to_search);
-
+    struct Person *found_person = Search_for_person(ceo, name_to_search);
     if (found_person != NULL) {
-        printf("\nPerson %s found!\n", found_person->name);
+        printf("\nEmployee %s found!\n", found_person->name);
     } else {
-        printf("\nPerson %s not found in the organization.\n", name_to_search);
+        printf("\nEmployee %s not found.\n", name_to_search);
     }
 
     return 0;
