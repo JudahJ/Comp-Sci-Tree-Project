@@ -62,7 +62,7 @@ struct Person *createPerson(char *name) {
 }
 
 int main() {
-    struct Person *ceo = NULL;
+    struct Person *ceo;
     
     char ceo_name[50];
     printf("Please enter the name of the highest level manager (CEO): ");
