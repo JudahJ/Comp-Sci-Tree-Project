@@ -30,9 +30,9 @@ void printOrgChart(struct Person *person, int level) {
     }
     
     for (int i = 0; i < level; i++) {
-        printf("    ↓");
+        printf("    ");
     }
-    printf("%s\n", person->name);
+    printf("%s↓\n", person->name);
     //for loop to track which subordinate
     for (int i = 0; i < person->sub_count; i++) {
         printOrgChart(person->subordinates[i], level + 1);
