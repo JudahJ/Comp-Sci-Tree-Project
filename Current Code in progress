@@ -166,7 +166,7 @@ int main() {
         char subordinate_name[50];
         char manager_name[50];
 
-        printf("\nWhat would you like to do? (or type q to quit)\n1. Add\n2. Search\n3. Move\n4. Print\n5. Quit\n");
+        printf("\nWhat would you like to do?\n1. Add\n2. Search\n3. Move\n4. Print\n5. Quit\n");
         scanf("%d",&wwyltd_choice);
 
         if (wwyltd_choice==1){//if they input 1 (for "Add")
