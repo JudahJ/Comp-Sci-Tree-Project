@@ -221,6 +221,11 @@ int main() {
             quit();
             break;
         }
+        else{
+            printf("please input a number 1-5\n");
+            continue;
+        }
+        
     }
 
     return 0;
