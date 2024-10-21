@@ -23,20 +23,7 @@ int addSubordinate(struct Person *manager, struct Person *subordinate) {
         exit(1);
     }
 }
-void printdivision(struct Person *person, int level) {
-    if (person == NULL) {
-        return;
-    }
 
-    for (int i = 0; i < level; i++) {
-        printf("    ");  
-    }
-    printf("%s↓\n", person->name);  
-
-    for (int i = 0; i < person->sub_count; i++) {
-        printdivision(person->subordinates[i], level + 1);
-    }
-}
 
 void printOrgChart(struct Person *person, int level) {
     //BASE CASE
@@ -229,17 +216,23 @@ int main()
         }
         else if (wwyltd_choice == 4) { // if they input 4 (for "Print")
         char manager_name[50];
-        printf("\nEnter the name of the manager whose division you want to print: ");
+        printf("\nEnter the name of the manager whose division you want to print, or type '6' to print the whole chart: ");
         scanf("%s", manager_name);
-
-        struct Person *manager = Search_for_person(ceo, manager_name);
+        if (strcmp(manager_name, "6")==0){
+            printf("\nOrg Chart:\n");
+            printOrgChart(ceo, 0);
+            
+        } else {
+            struct Person *manager = Search_for_person(ceo, manager_name);
         if (manager != NULL) {
             printf("\nDivision under %s:\n", manager->name);
-            printdivision(manager, 0);
+            printOrgChart(manager, 0);
             } else {
             printf("\nManager %s not found.\n", manager_name);
             }
         }
+        }
+        
         
         else if (wwyltd_choice==5){
             quit();
