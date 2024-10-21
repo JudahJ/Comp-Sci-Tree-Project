@@ -1,6 +1,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
+#include <time.h>
 
 #define MAX_SUBORDINATES 10
 
@@ -117,9 +118,43 @@ struct Person *createPerson(char *name) {
     return newPerson;
 }
 
+void quit(void){
+    int farewell=rand() % 5;
+    if (farewell==0){
+        printf("\nAs you hear of me, so think of me."
+        "Go comfort your cousin. I must say she is dead, and so farewell."
+        "--Benedick, \033[3m]Much Ado About Nothing\033[0m");
+    }
+    else if (farewell==1){
+        printf("\nFarewell the neighing steed, and the shrill trump,"
+        "The spirit-stirring drum, th' ear-piercing fife,"
+        "The royal banner, and all quality,"
+        "Pride, pomp, and circumstance of glorious war!"
+        "--Othello, \033[3m]Othello\033[0m");
+    }
+    else if (farewell==2){
+        printf("\nFarewell, farewell!"
+        "If we should meet again, why, we shall smile;"
+        "If not, why then, this parting was well made."
+        "--Brutus, \033[3m]Julius Caesar\033[0m");
+    }
+    else if (farewell==3){
+        printf("\nParting is such sweet sorrow,"
+        "That I shall say good night till it be morrow."
+        "--Juliet, \033[3mRomeo and Juliet\033[0m");
+    }
+    else if (farewell==4){
+        printf("\nAnd farewell, friends."
+        "Thus Thisbe ends."
+        "Adieu, adieu, adieu."
+        "--Flute (as Thisbe), \033[3m]A Midsummer Night's Dream\033[0m");
+    }
+}
+
 int main() {
+    srand(time(NULL)); //initializes random function for if the user quits
     struct Person *ceo;
-    
+
     char ceo_name[50];
     printf("Please enter the name of the highest level manager (CEO): ");
     scanf("%s", ceo_name);
@@ -127,63 +162,66 @@ int main() {
     ceo = createPerson(ceo_name);
 
     while (1) {
+        int wwyltd_choice; //WWYLTD = "what would you like to do"
         char subordinate_name[50];
         char manager_name[50];
 
-        // Get name of the subordinate 
-        printf("\nEnter the name of an employee or type 'done' to stop and print the chart: ");
-        scanf("%s", subordinate_name);
+        printf("\nWhat would you like to do? (or type q to quit)\n1. Add\n2. Search\n3. Move\n4. Print\n5. Quit\n");
+        scanf("%d",&wwyltd_choice);
 
-        if (strcmp(subordinate_name, "done") == 0) {
-            break;
-        }
+        if (wwyltd_choice==1){//if they input 1 (for "Add")
+            printf("\nEnter the name of an employee: "); //get name of the subordinate 
+            scanf("%s", subordinate_name);
+            printf("Who does %s work for? ", subordinate_name); //get the person they work for
+            scanf("%s", manager_name);
 
-        // Get the person they work for
-        printf("Who does %s work for? ", subordinate_name);
-        scanf("%s", manager_name);
-
-        //find the person
-        struct Person *manager = Search_for_person(ceo, manager_name);
-        if (manager == NULL) {
+            //find the manager
+            struct Person *manager = Search_for_person(ceo, manager_name);
+            if (manager == NULL) {
             printf("Manager %s isnn't in the organization\n", manager_name);
             continue;
+            }
+
+            //create subordinate and add them under the manager
+            struct Person *subordinate = createPerson(subordinate_name);
+            addSubordinate(manager, subordinate);
+
+            printf("\nEmployee %s added under manager %s.\n",subordinate_name,manager_name);
+            continue;
         }
+        
+        else if (wwyltd_choice==2){ //if they input 2 (for "Search")
+            char name_to_search[50];
+            printf("\nEnter the name of the person you want to search for: ");
+            scanf("%s", name_to_search);
 
-        // Create subordinate and add them to the manager
-        struct Person *subordinate = createPerson(subordinate_name);
-        addSubordinate(manager, subordinate);
+            struct Person *found_person = Search_for_person(ceo, name_to_search);
+            if (found_person != NULL) {
+                printf("\nEmployee %s found!\n", found_person->name);
+            } else {
+                printf("\nEmployee %s not found.\n", name_to_search);
+            }
+        }
+        else if (wwyltd_choice==3){//if they input 3 (for "Move")
+            char moving[50];
+            char new_manager_name[50];
+            printf("\nEnter the name of the person you want to move: ");
+            scanf("%s", moving);
+
+            printf("Enter the name of the new manager for %s: ", moving);
+            scanf("%s", new_manager_name);
+
+            move_person(ceo, moving, new_manager_name);
+        }
+        else if (wwyltd_choice==4){//if they input 4 (for "Print")
+            printf("\nOrg Chart:\n");
+            printOrgChart(ceo, 0);
+        }
+        else if (wwyltd_choice==5){
+            quit();
+            break;
+        }
     }
-
-    // Print the chart
-    printf("\nOrg Chart:\n");
-    printOrgChart(ceo, 0);
-
-    // Look for a person
-    char name_to_search[50];
-    printf("\nEnter the name of the person you want to search for: ");
-    scanf("%s", name_to_search);
-
-    struct Person *found_person = Search_for_person(ceo, name_to_search);
-    if (found_person != NULL) {
-        printf("\nEmployee %s found!\n", found_person->name);
-    } else {
-        printf("\nEmployee %s not found.\n", name_to_search);
-    }
-
-    // Move a person
-    char moving[50];
-    char new_manager_name[50];
-    printf("\nEnter the name of the person you want to move: ");
-    scanf("%s", moving);
-
-    printf("Enter the name of the new manager for %s: ", moving);
-    scanf("%s", new_manager_name);
-
-    move_person(ceo, moving, new_manager_name);
-
-    //print again, post-move
-    printf("\nOrg Chart:\n");
-    printOrgChart(ceo, 0);
 
     return 0;
 }
