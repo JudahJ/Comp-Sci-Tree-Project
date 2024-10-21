@@ -24,6 +24,7 @@ int addSubordinate(struct Person *manager, struct Person *subordinate) {
     }
 }
 
+
 void printOrgChart(struct Person *person, int level) {
     //BASE CASE
     if (person == NULL) {
@@ -72,7 +73,6 @@ struct Person *Search_person_manager(struct Person *manager, char *name, struct 
     }
     return NULL;
 }
-
 //this function is for the moving of a person, not for a removal feature
 int remove_person(struct Person *manager, struct Person *subordinate){
     for (int i = 0; i < manager->sub_count; i++) {
@@ -151,7 +151,8 @@ void quit(void){
     }
 }
 
-int main() {
+int main() 
+{
     srand(time(NULL)); //initializes random function for if the user quits
     struct Person *ceo;
 
@@ -166,7 +167,7 @@ int main() {
         char subordinate_name[50];
         char manager_name[50];
 
-        printf("\nWhat would you like to do?\n1. Add\n2. Search\n3. Move\n4. Print\n5. Quit\n");
+        printf("\nWhat would you like to do? (or type q to quit)\n1. Add\n2. Search\n3. Move\n4. Print\n5. Quit\n");
         scanf("%d",&wwyltd_choice);
 
         if (wwyltd_choice==1){//if they input 1 (for "Add")
@@ -178,8 +179,8 @@ int main() {
             //find the manager
             struct Person *manager = Search_for_person(ceo, manager_name);
             if (manager == NULL) {
-            printf("Manager %s isnn't in the organization\n", manager_name);
-            continue;
+                printf("Manager %s isn't in the organization\n", manager_name);
+                continue;
             }
 
             //create subordinate and add them under the manager
@@ -213,10 +214,26 @@ int main() {
 
             move_person(ceo, moving, new_manager_name);
         }
-        else if (wwyltd_choice==4){//if they input 4 (for "Print")
+        else if (wwyltd_choice == 4) { // if they input 4 (for "Print")
+        char manager_name[50];
+        printf("\nEnter the name of the manager whose division you want to print, or type '6' to print the whole chart: ");
+        scanf("%s", manager_name);
+        if (strcmp(manager_name, "6")==0){
             printf("\nOrg Chart:\n");
             printOrgChart(ceo, 0);
+            
+        } else {
+            struct Person *manager = Search_for_person(ceo, manager_name);
+        if (manager != NULL) {
+            printf("\nDivision under %s:\n", manager->name);
+            printOrgChart(manager, 0);
+            } else {
+            printf("\nManager %s not found.\n", manager_name);
+            }
         }
+        }
+        
+        
         else if (wwyltd_choice==5){
             quit();
             break;
@@ -226,8 +243,6 @@ int main() {
             while (getchar() != '\n');
             continue;
         }
-        
-    }
-
+    } 
     return 0;
 }
