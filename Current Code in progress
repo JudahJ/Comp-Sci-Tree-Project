@@ -53,6 +53,60 @@ struct Person *Search_for_person(struct Person *manager, char *name) {
     }
     return NULL;
 }
+//search for person and manager (in order to move)
+struct Person *Search_person_manager(struct Person *manager, char *name, struct Person **found_manager) {
+    if (strcmp(manager->name, name) == 0) { //same as search func
+        return manager;
+    }
+
+    for (int i = 0; i < manager->sub_count; i++) {
+        if (strcmp(manager->subordinates[i]->name, name) == 0) {//checks ahead for subordinate name match
+            *found_manager = manager; 
+            return manager->subordinates[i]; //still returns the person being searched for 
+        }
+        struct Person *found = Search_person_manager(manager->subordinates[i], name, found_manager);
+        if (found != NULL) { 
+            return found;
+        }
+    }
+    return NULL;
+}
+
+//this function is for the moving of a person, not for a removal feature
+int remove_person(struct Person *manager, struct Person *subordinate){
+    for (int i = 0; i < manager->sub_count; i++) {
+        if (manager->subordinates[i]=subordinate){
+            for (int y = i; y<manager->sub_count-1; y++) {
+                manager->subordinates[y]=manager->subordinates[y+1];
+            }
+            manager->subordinates[manager->sub_count-1] = NULL;
+            manager->sub_count=manager->sub_count-1;
+            return 0;
+        }
+    }
+    printf("not found\n"); //if person to be moved isnt found
+    return 1;
+}
+
+int move_person(struct Person *ceo, char *person_name, char *new_manager_name) {
+    struct Person *current_manager = NULL;
+    struct Person *moving = Search_person_manager(ceo, person_name, &current_manager); //finds person to move
+    if (moving == NULL) {
+        printf("employee not found: %s", person_name);
+        return 1;
+    }
+    struct Person *new_manager = Search_for_person(ceo, new_manager_name); //finds manager to move them to
+    if (new_manager == NULL) {
+        printf("Manager not found: %s\n", new_manager_name);
+        return 1;
+    }
+    if (current_manager != NULL) {
+        remove_person(current_manager, moving); //takes moving person out from under current manager
+    }
+    addSubordinate(new_manager, moving); //adds them as a new subordinate under their new manager
+    printf("Moved %s under new manager: %s\n", moving->name, new_manager->name);
+    return 0;
+}
 
 //Func to create memory for the person and return a pointer to them
 struct Person *createPerson(char *name) {
@@ -115,6 +169,21 @@ int main() {
     } else {
         printf("\nEmployee %s not found.\n", name_to_search);
     }
+
+    // Move a person
+    char moving[50];
+    char new_manager_name[50];
+    printf("\nEnter the name of the person you want to move: ");
+    scanf("%s", moving);
+
+    printf("Enter the name of the new manager for %s: ", moving);
+    scanf("%s", new_manager_name);
+
+    move_person(ceo, moving, new_manager_name);
+
+    //print again, post-move
+    printf("\nOrg Chart:\n");
+    printOrgChart(ceo, 0);
 
     return 0;
 }
