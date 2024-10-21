@@ -76,7 +76,7 @@ struct Person *Search_person_manager(struct Person *manager, char *name, struct 
 //this function is for the moving of a person, not for a removal feature
 int remove_person(struct Person *manager, struct Person *subordinate){
     for (int i = 0; i < manager->sub_count; i++) {
-        if (manager->subordinates[i]=subordinate){
+        if (manager->subordinates[i]==subordinate){
             for (int y = i; y<manager->sub_count-1; y++) {
                 manager->subordinates[y]=manager->subordinates[y+1];
             }
@@ -223,6 +223,7 @@ int main() {
         }
         else{
             printf("please input a number 1-5\n");
+            while (getchar() != '\n');
             continue;
         }
         
