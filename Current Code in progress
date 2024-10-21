@@ -121,32 +121,32 @@ struct Person *createPerson(char *name) {
 void quit(void){
     int farewell=rand() % 5;
     if (farewell==0){
-        printf("\nAs you hear of me, so think of me."
-        "Go comfort your cousin. I must say she is dead, and so farewell."
+        printf("\nAs you hear of me, so think of me.\n"
+        "Go comfort your cousin. I must say she is dead, and so farewell.\n"
         "--Benedick, \033[3mMuch Ado About Nothing\033[0m");
     }
     else if (farewell==1){
-        printf("\nFarewell the neighing steed, and the shrill trump,"
-        "The spirit-stirring drum, th' ear-piercing fife,"
-        "The royal banner, and all quality,"
-        "Pride, pomp, and circumstance of glorious war!"
+        printf("\nFarewell the neighing steed, and the shrill trump,\n"
+        "The spirit-stirring drum, th' ear-piercing fife,\n"
+        "The royal banner, and all quality,\n"
+        "Pride, pomp, and circumstance of glorious war!\n"
         "--Othello, \033[3mOthello\033[0m");
     }
     else if (farewell==2){
-        printf("\nFarewell, farewell!"
-        "If we should meet again, why, we shall smile;"
-        "If not, why then, this parting was well made."
+        printf("\nFarewell, farewell!\n"
+        "If we should meet again, why, we shall smile;\n"
+        "If not, why then, this parting was well made.\n"
         "--Brutus, \033[3mJulius Caesar\033[0m");
     }
     else if (farewell==3){
-        printf("\nParting is such sweet sorrow,"
-        "That I shall say good night till it be morrow."
+        printf("\nParting is such sweet sorrow,\n"
+        "That I shall say good night till it be morrow.\n"
         "--Juliet, \033[3mRomeo and Juliet\033[0m");
     }
     else if (farewell==4){
-        printf("\nAnd farewell, friends."
-        "Thus Thisbe ends."
-        "Adieu, adieu, adieu."
+        printf("\nAnd farewell, friends.\n"
+        "Thus Thisbe ends.\n"
+        "Adieu, adieu, adieu.\n"
         "--Flute (as Thisbe), \033[3mA Midsummer Night's Dream\033[0m");
     }
 }
