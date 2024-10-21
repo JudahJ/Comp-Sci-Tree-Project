@@ -123,20 +123,20 @@ void quit(void){
     if (farewell==0){
         printf("\nAs you hear of me, so think of me."
         "Go comfort your cousin. I must say she is dead, and so farewell."
-        "--Benedick, \033[3m]Much Ado About Nothing\033[0m");
+        "--Benedick, \033[3mMuch Ado About Nothing\033[0m");
     }
     else if (farewell==1){
         printf("\nFarewell the neighing steed, and the shrill trump,"
         "The spirit-stirring drum, th' ear-piercing fife,"
         "The royal banner, and all quality,"
         "Pride, pomp, and circumstance of glorious war!"
-        "--Othello, \033[3m]Othello\033[0m");
+        "--Othello, \033[3mOthello\033[0m");
     }
     else if (farewell==2){
         printf("\nFarewell, farewell!"
         "If we should meet again, why, we shall smile;"
         "If not, why then, this parting was well made."
-        "--Brutus, \033[3m]Julius Caesar\033[0m");
+        "--Brutus, \033[3mJulius Caesar\033[0m");
     }
     else if (farewell==3){
         printf("\nParting is such sweet sorrow,"
@@ -147,7 +147,7 @@ void quit(void){
         printf("\nAnd farewell, friends."
         "Thus Thisbe ends."
         "Adieu, adieu, adieu."
-        "--Flute (as Thisbe), \033[3m]A Midsummer Night's Dream\033[0m");
+        "--Flute (as Thisbe), \033[3mA Midsummer Night's Dream\033[0m");
     }
 }
 
